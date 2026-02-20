@@ -27,7 +27,6 @@ GOOGLE_API_KEY=your_api_key_here
 |------|------|--------|
 | `GOOGLE_API_KEY` | Google AI Studio API密钥 | (必填) |
 | `HTTPS_PROXY` | HTTPS代理地址 | 系统代理 |
-| `OUTPUT_DIR` | 图片保存目录 | 当前目录 |
 
 ## 运行
 
@@ -62,6 +61,7 @@ npm start
 
 **参数：**
 - `prompt` (required): 图像描述文本
+- `output_dir`: 图片保存目录 (默认当前目录)
 
 **示例：**
 ```

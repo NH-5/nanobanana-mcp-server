@@ -15,7 +15,6 @@ dotenv.config();
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 const proxy = process.env.HTTPS_PROXY || process.env.https_proxy;
 const agent = proxy ? new HttpsProxyAgent(proxy) : undefined;
-const OUTPUT_DIR = process.env.OUTPUT_DIR || '.';
 
 function httpRequest(url: string, data: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -46,9 +45,7 @@ function httpRequest(url: string, data: string): Promise<string> {
 
 interface GenerateImageArgs {
   prompt: string;
-  aspect_ratio?: string;
-  quality?: string;
-  number_of_images?: number;
+  output_dir?: string;
 }
 
 const server = new Server(
@@ -76,20 +73,10 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
               type: 'string',
               description: 'Text description of the image to generate',
             },
-            aspect_ratio: {
+            output_dir: {
               type: 'string',
-              description: 'Aspect ratio of the image (e.g., "16:9", "1:1", "9:16")',
-              default: '16:9',
-            },
-            quality: {
-              type: 'string',
-              description: 'Quality of the image (standard or high)',
-              default: 'standard',
-            },
-            number_of_images: {
-              type: 'number',
-              description: 'Number of images to generate (1-4)',
-              default: 1,
+              description: 'Directory to save the generated image(s)',
+              default: '.',
             },
           },
           required: ['prompt'],
@@ -105,7 +92,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   if (name === 'generate_image') {
     try {
       const genArgs = args as unknown as GenerateImageArgs;
-      const { prompt, aspect_ratio, quality, number_of_images } = genArgs;
+      const { prompt, output_dir } = genArgs;
+      const outputDir = output_dir || '.';
 
       const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${GOOGLE_API_KEY}`;
       const requestBody = JSON.stringify({
@@ -157,7 +145,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       for (const img of imageResults) {
         const ext = img.mimeType === 'image/png' ? 'png' : 'jpg';
         const filename = `generated_image_${Date.now()}_${img.index}.${ext}`;
-        const filepath = path.join(OUTPUT_DIR, filename);
+        const filepath = path.join(outputDir, filename);
         const buffer = Buffer.from(img.data, 'base64');
         fs.writeFileSync(filepath, buffer);
         console.error(`Image saved to: ${filepath}`);
