@@ -1,6 +1,6 @@
 # Nano Banana MCP Server
 
-MCP服务器，用于通过Google AI Studio API调用Nano Banana Pro图像生成模型。
+MCP服务器，用于通过Google AI Studio API调用Gemini Nano Banana图像生成模型。
 
 ## 安装
 
@@ -21,6 +21,14 @@ cp .env.example .env
 GOOGLE_API_KEY=your_api_key_here
 ```
 
+### 环境变量
+
+| 变量 | 说明 | 默认值 |
+|------|------|--------|
+| `GOOGLE_API_KEY` | Google AI Studio API密钥 | (必填) |
+| `HTTPS_PROXY` | HTTPS代理地址 | 系统代理 |
+| `OUTPUT_DIR` | 图片保存目录 | 当前目录 |
+
 ## 运行
 
 ```bash
@@ -33,13 +41,14 @@ npm start
 
 ```json
 {
-  "mcpServers": {
+  "mcp": {
     "nanobanana": {
       "type": "local",
-      "args": ["node", "/path/to/nanobanana/index.js"],
-      "environment": {
+      "command": ["node", "/path/to/nanobanana-mcp-server/dist/index.js"],
+      "env": {
         "GOOGLE_API_KEY": "your_api_key"
-      }
+      },
+      "enabled": true
     }
   }
 }
@@ -53,9 +62,6 @@ npm start
 
 **参数：**
 - `prompt` (required): 图像描述文本
-- `aspect_ratio`: 宽高比 (如 "16:9", "1:1", "9:16")
-- `quality`: 质量 ("standard" 或 "high")
-- `number_of_images`: 生成数量 (1-4)
 
 **示例：**
 ```
