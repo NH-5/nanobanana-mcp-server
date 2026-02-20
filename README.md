@@ -35,9 +35,9 @@ npm start
 {
   "mcpServers": {
     "nanobanana": {
-      "command": "node",
-      "args": ["/path/to/nanobanana/index.js"],
-     -mcp-server/dist "env": {
+      "type": "local",
+      "args": ["node", "/path/to/nanobanana/index.js"],
+      "environment": {
         "GOOGLE_API_KEY": "your_api_key"
       }
     }
