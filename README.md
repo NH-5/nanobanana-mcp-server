@@ -1,6 +1,13 @@
 # Nano Banana MCP Server
 
-MCP服务器，用于通过Google AI Studio API调用Gemini Nano Banana图像生成模型。
+MCP服务器，用于通过Google AI Studio API调用Gemini Nano Banana (gemini-2.5-flash-image) 图像生成模型。
+
+版本: 1.0.0
+
+## 功能
+- 调用Google Gemini Nano Banana模型生成图像
+- 支持通过MCP协议在opencode等客户端中使用
+- 生成图片会保存到本地文件
 
 ## 安装
 
