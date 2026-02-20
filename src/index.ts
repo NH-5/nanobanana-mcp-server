@@ -65,7 +65,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
     tools: [
       {
         name: 'generate_image',
-        description: 'Generate images using Google Gemini Nano Banana (gemini-2.5-flash-image) model',
+        description: 'Generate images using Google Gemini Nano Banana Pro (gemini-3-pro-image-preview) model',
         inputSchema: {
           type: 'object',
           properties: {
@@ -95,7 +95,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const { prompt, output_dir } = genArgs;
       const outputDir = output_dir || '.';
 
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent?key=${GOOGLE_API_KEY}`;
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-pro-image-preview:generateContent?key=${GOOGLE_API_KEY}`;
       const requestBody = JSON.stringify({
         contents: [
           {
